@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
 
@@ -48,6 +49,10 @@ public class Player : MonoBehaviour
             {
                 animator.SetBool("onJump", true);
             }
+            else
+            {
+                animator.SetBool("onJump", false);
+            }
             if (jump != 0)
             {
                 direction = jump < 0 ? -1 : 1;
@@ -60,7 +65,16 @@ public class Player : MonoBehaviour
             }
         }
 
-
+        if(Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            animator.SetBool("ifAttack", true);
+            animator.SetFloat("MoveX", direction);
+            
+        }
+        else
+        {
+            animator.SetBool("ifAttack", false);
+        }
     }
     void OnCollisionEnter2D(Collision2D col)
     {
@@ -74,5 +88,14 @@ public class Player : MonoBehaviour
             animator.SetTrigger("onGround");
         }
         
+        
+    }
+    int enemys = 0;
+
+    public void addLife() { }
+
+    public void addEnemy()
+    {
+        enemys++;
     }
 }

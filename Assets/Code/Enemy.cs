@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    [SerializeField]
+    Player player;
+
     Animator _animator;
     public float distanceTime;
     public float speed;
@@ -14,6 +17,7 @@ public class Enemy : MonoBehaviour
     {
         _animator = GetComponent<Animator>();
         timeIndirection = distanceTime;
+        player = GameObject.Find("Player").GetComponent<Player>();
     }
 
     // Update is called once per frame
@@ -36,5 +40,20 @@ public class Enemy : MonoBehaviour
             _animator.SetFloat("Move X", 0);
         }
 
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        int counter = 0;
+        if (collision.gameObject.tag == "Player" && this.tag == "Enemy" && Input.GetKeyDown(KeyCode.Mouse1))
+        {
+            counter++;
+            Debug.Log("Gay");
+            if (counter == 1)
+            {
+                Destroy(this.gameObject);
+                player.addEnemy();
+            }
+        }
     }
 }
