@@ -14,7 +14,6 @@ public class Enemy : MonoBehaviour
     {
         _animator = GetComponent<Animator>();
         timeIndirection = distanceTime;
-        _animator.SetFloat("MoveX", direction);
     }
 
     // Update is called once per frame
@@ -29,7 +28,13 @@ public class Enemy : MonoBehaviour
         {
             direction *= -1;
             timeIndirection = distanceTime;
-            _animator.SetFloat("MoveX", direction);
+            _animator.SetFloat("Move X", direction);
+            _animator.SetFloat("Move Y", (direction < 0 ? -0.8f : 0.8f));
         }
+        else
+        {
+            _animator.SetFloat("Move X", 0);
+        }
+
     }
 }
