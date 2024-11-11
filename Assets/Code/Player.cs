@@ -24,6 +24,7 @@ public class Player : MonoBehaviour
     {
         Vector2 position = transform.position;
         float move = Input.GetAxis("Horizontal");
+        float jump = Input.GetAxis("Vertical");
         position.x = position.x + speed * Time.deltaTime * move;
         transform.position = position;
 
@@ -32,8 +33,6 @@ public class Player : MonoBehaviour
             direction = move < 0 ? -1 : 1;
             animator.SetFloat("MoveX", direction);
             animator.SetFloat("MoveY", (direction < 0 ? -0.8f : 0.8f));
-
-
         }
         else
         {
@@ -45,7 +44,20 @@ public class Player : MonoBehaviour
             isJumping = true;
             rigidbody2D.velocity = Vector2.zero;
             rigidbody2D.AddForce(new Vector2(0, Mathf.Sqrt(-2 * Physics2D.gravity.y * JumpHeight)), ForceMode2D.Impulse);
-
+            if (isJumping == true)
+            {
+                animator.SetBool("onJump", true);
+            }
+            if (jump != 0)
+            {
+                direction = jump < 0 ? -1 : 1;
+                animator.SetFloat("JumpX", direction);
+                animator.SetFloat("JumpY", (direction < 0 ? -0.8f : 0.8f));
+            }
+            else
+            {
+                animator.SetFloat("JumpX", 0);
+            }
         }
 
 
@@ -53,6 +65,14 @@ public class Player : MonoBehaviour
     void OnCollisionEnter2D(Collision2D col)
     {
            isJumping = false;
+        if (isJumping == false)
+        {
+            animator.SetTrigger("onGround");
+        }
+        else
+        {
+            animator.SetTrigger("onGround");
+        }
         
     }
 }
